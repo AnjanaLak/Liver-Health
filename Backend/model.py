@@ -33,8 +33,8 @@ def trainModel(model, datasetFilePath):
                   metrics=['accuracy'])
     model_df = pd.read_csv(datasetFilePath)
     print(model_df.shape)
-    X = model_df.values[:, 0:28]
-    y = model_df.values[:, 28]
+    X = model_df.values[:, 1:16]
+    y = model_df.values[:, 16]
     x_train, x_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2)
 
     x_train = tf.keras.utils.normalize(x_train, axis=1)
@@ -83,4 +83,4 @@ def predict(model, data):
 
 
 model = tf.keras.models.Sequential()
-trainModel(model, "data.csv")
+trainModel(model, "Dataset/data.csv")
