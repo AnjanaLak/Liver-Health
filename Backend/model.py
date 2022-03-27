@@ -26,7 +26,7 @@ def trainModel(model, datasetFilePath):
     model.add(tf.keras.layers.Flatten())
     model.add(tf.keras.layers.Dense(25, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(25, activation=tf.nn.relu))
-    model.add(tf.keras.layers.Dense(4, activation=tf.nn.softmax))
+    model.add(tf.keras.layers.Dense(2, activation=tf.nn.softmax))
 
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
