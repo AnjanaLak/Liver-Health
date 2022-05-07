@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import 'survey-react/survey.css';
 import * as Survey from 'survey-react';
 import Json from './question';
 
-const Mysurvey = () => {
+const Mysurvey = (prop) => {
+
+    // const {state:{surveys:{data}}} = useContext(Context);
+    // console.log(data)
 
     return (
-        <Survey.Survey json={Json} />
+        <Survey.Survey 
+        showCompletedPage={false}
+        onComplete = {data => prop.showCompletedPage(data.valuesHash)}
+        json={Json} />
     )
 } 
 

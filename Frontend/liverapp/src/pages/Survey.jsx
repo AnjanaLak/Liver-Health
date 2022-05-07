@@ -19,6 +19,7 @@ const SurveyContainer = styled.div`
 `;
 
 const SurveyPage = () => {
+
   return (
     <div>
       <Announcement />
