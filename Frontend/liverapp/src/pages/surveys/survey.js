@@ -19,11 +19,55 @@ const Container = styled.div`
   justify-content: center;
   margin-top : 50px;
   margin-bottom : 100px;
-  background-color : yellow;
   padding: 50px;
 
 `;
 
+const SmileyImg = styled.img`
+width: 100px;
+height: 100px;
+align-items: center;
+justify-content: center;
+padding-top: 50px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+`;
+
+const SadImg = styled.img`
+width: 100px;
+height: 100px;
+align-items: center;
+justify-content: center;
+padding-top: 50px;
+display: block;
+margin-left: auto;
+margin-right: auto;
+`;
+
+const Note = styled.p`
+font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    padding: 34px;
+`;
+
+const HomeButton = styled.button`
+background-color: #0275d8;
+border: none;
+color: white;
+padding: 6px 12px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 14px;
+margin: 4px 2px;
+transition-duration: 0.4s;
+cursor: pointer;
+display: block;
+margin-left: auto;
+margin-right: auto;
+`;
 
 const Survey = () => {
 
@@ -95,18 +139,19 @@ const Survey = () => {
                 <Container>
                     {
                         predictionResult === 0 ?
-                            <Result
-                                icon={<SmileTwoTone />}
-                                title="Great, We have not found any risk of Fatty Liver!"
-                                extra={<Link to="/homepage"><Button type="primary">Go to Home Page</Button></Link>}
-                        
-                            /> :
-                            <Result
-                                icon={<FrownTwoTone />}
-                                title="It seems you have a risk of Fatty Liver!"
-                                extra={<Button type="primary">View Suggestions</Button>}
-                              
-                            />
+                            <div>
+                                <SmileyImg src='https://thumbs.dreamstime.com/b/smiley-yellow-face-emoji-white-background-smiley-yellow-face-emoji-white-background-vector-150787032.jpg' />
+                                <Note>Great, We have not found any risk of Fatty Liver!</Note>
+                                <Link to="/homepage"><HomeButton>Go to Home Page</HomeButton></Link>
+
+                            </div> :
+
+                            <div>
+                                <SadImg src='https://clipart.world/wp-content/uploads/2021/04/Sad-Face-Emoji-clipart.png' />
+                                <Note>It seems you have a risk of Fatty Liver. Please visit a consultant immediately!</Note>
+                                <Link to="/homepage"><HomeButton>Go to Home Page</HomeButton></Link>
+                            </div>
+                       
                     }
 
                 </Container>
