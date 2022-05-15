@@ -3,8 +3,8 @@ import { FlashOnRounded, Search, ShoppingCartOutlined } from "@material-ui/icons
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { useSelector, useDispatch} from "react-redux";
-import { Link, useHistory  } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import addUserAction from "../redux/actions/userAction";
 
 const Container = styled.div`
@@ -99,12 +99,12 @@ const Navbar = () => {
         username: '',
         email: '',
         password: '',
-        isLogged : false
+        isLogged: false
       })
     )
     history.push("/");
 
-}
+  }
 
 
   const quantity = useSelector(state => state.cart.quantity)

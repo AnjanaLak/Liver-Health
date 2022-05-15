@@ -14,6 +14,20 @@ def loginUser(username, password):
         return 0
 
 
-def registerUser():
-    user = {}
-    return user
+def registerUser(username, password, email):
+    # check whether a user exists
+    user = User.query.filter_by(userName=username, userEmail=email).first()
+    # saving the user to the db and returns user
+    if user:
+        return 1
+    else:
+        newUser = User(username, password, email)
+        db.session.add(newUser)  # adding the new user
+        try:
+            db.session.commit()
+            print("New user added")
+        except Exception as e:
+            print(e)
+        user = User.query.filter_by(userName=username, userEmail=email).first()
+        usr = {"username": user.userName, "password": user.userPassword, "email": user.userEmail}
+        return usr

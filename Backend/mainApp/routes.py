@@ -46,3 +46,23 @@ def login():
         return jsonify(user)
     else:
         return jsonify({"Status": 0})
+
+@app.route("/register", methods=['POST'])
+@cross_origin()
+def register():
+    username = request.json['username']
+    password = request.json['password']
+    email = request.json['email']
+
+    print(type(username))
+    print(type(password))
+    print(username)
+
+    user = userService.registerUser(username, password, email)
+    print(user)
+    if user:
+        return jsonify(user)
+    if user == 1:
+        return jsonify({"Status": 1})
+    else:
+        return jsonify({"Status": 0})

@@ -1,6 +1,10 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { registerUser } from "../api/surveyAPI";
+import addUserAction from "../redux/actions/userAction";
 
 const Container = styled.div`
   width: 100vw;
@@ -56,6 +60,54 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [isLogged, setIsLogged] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false); 
+ 
+
+  const handleRegisterClick = (e) => {
+    e.preventDefault();
+  //  login(dispatch, { username, password });
+  // need to call backend to check data
+    if(username !== '' || username !== null || password !== '' || password !== null
+        || email !== '' || email != null){
+      setIsLoading(true);
+      registerUser({username : username,  password : password, email : email})
+      .then(res => {
+        console.log(res)
+        if(res.data.username !== null || res.data.username !== ''){
+          dispatch(
+            addUserAction({
+              username: res.data.username,
+              email: res.data.email,
+              password: res.data.password,
+              isLogged : true
+            })
+          )
+          setIsLogged(true);
+          setIsLoading(false);
+          history.push("/homepage");
+        }
+        else{
+          setIsLogged(false);
+          setIsLoading(false);
+          history.push("/");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+
+      })
+  
+    }
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -63,9 +115,15 @@ const Register = () => {
         <Form>
           {/* <Input placeholder="First Name" />
           <Input placeholder="Last Name" /> */}
-          <Input placeholder="Username" />
-          <Input placeholder="Email" />
-          <Input placeholder="password" />
+          <Input placeholder="Username" 
+             onChange={(e) => setUsername(e.target.value)}
+             required />
+          <Input placeholder="Email" 
+             onChange={(e) => setEmail(e.target.value)}
+             required />
+          <Input placeholder="password"
+           onChange={(e) => setPassword(e.target.value)}
+           required />
           <Input placeholder="confirm password" />
           <Agreement>
             By creating an account, I consent to the processing of my personal
@@ -73,11 +131,9 @@ const Register = () => {
           </Agreement>
          
         </Form>
-        <Link to="/homepage">
-          <Button >
-            LOGIN
+          <Button onClick={(e) => handleRegisterClick(e)}>
+            REGISTER
           </Button>
-          </Link>
       </Wrapper>
     </Container>
   );

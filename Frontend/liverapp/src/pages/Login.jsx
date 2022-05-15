@@ -73,13 +73,14 @@ const Error = styled.span`
 
 const Login = () => {
 
+  const dispatch = useDispatch();
   const history = useHistory();
+
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLogged, setIsLogged] = useState(false); 
   const [isLoading, setIsLoading] = useState(false); 
-  const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
   const handleClick = (e) => {
@@ -127,11 +128,13 @@ const Login = () => {
           <Input
             placeholder="username"
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <Input
             placeholder="password"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
          {isLogged ? <span><h4 style={{color : 'red'}}>Login Failed</h4></span> : <span></span>}
           {/* <Button onClick={handleClick} disabled={isFetching}> */}
