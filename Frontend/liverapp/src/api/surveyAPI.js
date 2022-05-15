@@ -14,6 +14,22 @@ export const predictFattyLiver=(req)=>{
 
 }
 
+export const searchUser = (req) => {
+    return axios({
+        method : 'POST',
+        url : `${BASE_URL}/login`,
+        data : req
+    })
+}
+
+export const registerUser = (req) => {
+    return axios({
+        method : 'POST',
+        url : `${BASE_URL}/register`,
+        data : req
+    })
+}
+
 // export default axios.create({
 //     baseURL:'https://y1t7w9i1xh.execute-api.us-east-2.amazonaws.com/default'
 // })

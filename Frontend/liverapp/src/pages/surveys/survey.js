@@ -6,6 +6,8 @@ import Mysurvey from './surveyType';
 import { Result, Button } from 'antd';
 import { SmileTwoTone, FrownTwoTone } from '@ant-design/icons';
 
+import { Link } from 'react-router-dom';
+
 import { Send } from "@material-ui/icons";
 import styled from "styled-components";
 
@@ -96,7 +98,7 @@ const Survey = () => {
                             <Result
                                 icon={<SmileTwoTone />}
                                 title="Great, We have not found any risk of Fatty Liver!"
-                                extra={<Button type="primary">Go to Home Page</Button>}
+                                extra={<Link to="/homepage"><Button type="primary">Go to Home Page</Button></Link>}
                         
                             /> :
                             <Result

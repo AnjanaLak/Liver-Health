@@ -2,6 +2,7 @@ from flask import jsonify
 from flask import Flask, request
 from mainApp import app, db
 from models import model
+from userService import userService
 import numpy
 import tensorflow as tf
 from flask_cors import CORS, cross_origin
@@ -29,4 +30,19 @@ def predict():
     return {"pred": str(numpy.argmax(prediction))}
 
 
+@app.route("/login", methods=['POST'])
+@cross_origin()
+def login():
+    username = request.json['username']
+    password = request.json['password']
 
+    print(type(username))
+    print(type(password))
+    print(username)
+
+    user = userService.loginUser(username, password)
+    print(user)
+    if user:
+        return jsonify(user)
+    else:
+        return jsonify({"Status": 0})

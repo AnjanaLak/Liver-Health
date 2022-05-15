@@ -16,7 +16,9 @@ cors = CORS(app)
 # defining database configs
 app = Flask(__name__)  # is a special variable in python that is just the name of the module
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database/liverApp.db'  # '///' =>relative path from current dir
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost:3307/liverapp'
+# 'mysql:///../database/liverApp.db'  # '///' =>relative path from current dir
+# 'mysql://username:password@localhost/db_name'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 ma = Marshmallow(app)

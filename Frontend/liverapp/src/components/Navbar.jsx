@@ -1,10 +1,11 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { FlashOnRounded, Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch} from "react-redux";
+import { Link, useHistory  } from "react-router-dom";
+import addUserAction from "../redux/actions/userAction";
 
 const Container = styled.div`
   height: 60px;
@@ -68,8 +69,46 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const LogoutBtn = styled.button`
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #4CAF50;
+    color: white;
+  }
+`;
 const Navbar = () => {
-  const quantity = useSelector(state=>state.cart.quantity)
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const logoutClick = (e) => {
+    e.preventDefault();
+    dispatch(
+      addUserAction({
+        username: '',
+        email: '',
+        password: '',
+        isLogged : false
+      })
+    )
+    history.push("/");
+
+}
+
+
+  const quantity = useSelector(state => state.cart.quantity)
+  const { username, isLogged } = useSelector((state) => state.userReducer);
   return (
     <Container>
       <Wrapper>
@@ -83,21 +122,22 @@ const Navbar = () => {
         <Center>
           <Logo>LIVERAPP</Logo>
         </Center>
-        <Right>
+        {!isLogged ? <Right>
           <Link to="/register">
-          <MenuItem>REGISTER</MenuItem>
+            <MenuItem>REGISTER</MenuItem>
           </Link>
-         <Link to="/login">
-         <MenuItem>SIGN IN</MenuItem>
-         </Link>
-          {/* <Link to="/cart">
-          <MenuItem>
-            <Badge badgeContent={quantity} color="primary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </MenuItem>
-          </Link> */}
-        </Right>
+          <Link to="/login">
+            <MenuItem>SIGN IN</MenuItem>
+          </Link>
+        </Right> :
+          <Right>
+            <>
+              <MenuItem style={{ fontSize: '16px', fontWeight: 'bold', color: '#464646' }}>Welcome, {username.toString()}!!</MenuItem>
+            </>
+            <Link to="/">
+              <MenuItem><LogoutBtn onClick={(e) => logoutClick(e)}>LOGOUT</LogoutBtn></MenuItem>
+            </Link>
+          </Right>}
       </Wrapper>
     </Container>
   );

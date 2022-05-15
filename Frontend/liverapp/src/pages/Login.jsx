@@ -2,8 +2,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { mobile } from "../responsive";
-import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector} from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { searchUser } from "../api/surveyAPI";
+import addUserAction from "../redux/actions/userAction";
 
 const Container = styled.div`
   width: 100vw;
@@ -70,14 +72,52 @@ const Error = styled.span`
 `;
 
 const Login = () => {
+
+  const history = useHistory();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogged, setIsLogged] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false); 
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
 
   const handleClick = (e) => {
     e.preventDefault();
-    login(dispatch, { username, password });
+  //  login(dispatch, { username, password });
+  // need to call backend to check data
+    if(username !== '' || username !== null || password !== '' || password !== null){
+      setIsLoading(true);
+      searchUser({username : username,  password : password})
+      .then(res => {
+        console.log(res)
+        if(res.data.username !== null || res.data.username !== ''){
+          dispatch(
+            addUserAction({
+              username: res.data.username,
+              email: res.data.email,
+              password: res.data.password,
+              isLogged : true
+            })
+          )
+          setIsLogged(true);
+          setIsLoading(false);
+          history.push("/homepage");
+        }
+        else{
+          setIsLogged(false);
+          setIsLoading(false);
+          history.push("/");
+        }
+      })
+      .catch(err => {
+        console.log(err);
+
+      })
+  
+    }
+  //searchUser
+  // then assign state
   };
   return (
     <Container>
@@ -93,12 +133,13 @@ const Login = () => {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
+         {isLogged ? <span><h4 style={{color : 'red'}}>Login Failed</h4></span> : <span></span>}
           {/* <Button onClick={handleClick} disabled={isFetching}> */}
-          <Link to="/homepage">
-          <Button >
+          {/* <Link to="/homepage"> */}
+          <Button onClick={(e) => handleClick(e)}>
             LOGIN
           </Button>
-          </Link>
+          {/* </Link> */}
           
           {/* {error && <Error>Something went wrong...</Error>} */}
           {/* <Link to="/login"> */}

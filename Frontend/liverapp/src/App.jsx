@@ -6,6 +6,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Link,
   Redirect,
 } from "react-router-dom";
 import Success from "./pages/Success";
@@ -13,6 +14,7 @@ import { useSelector } from "react-redux";
 import SurveyPage from "./pages/Survey";
 
 const App = () => {
+  // need to select the user
   const user = useSelector((state) => state.user.currentUser);
   // const user ={'Name' : 'Gihan'};
   return (
